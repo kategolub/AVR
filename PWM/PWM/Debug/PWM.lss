@@ -1,0 +1,269 @@
+
+PWM.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000017c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001f0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000a  00800060  00800060  000001f0  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000001f0  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000220  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000020  00000000  00000000  0000025c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000613  00000000  00000000  0000027c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000055f  00000000  00000000  0000088f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000002c2  00000000  00000000  00000dee  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000024  00000000  00000000  000010b0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000002df  00000000  00000000  000010d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  000013b3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	aa 36       	cpi	r26, 0x6A	; 106
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  74:	0c 94 bc 00 	jmp	0x178	; 0x178 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <main>:
+int flag = 0;
+int e, a, i, b;
+
+int main(void)
+{
+	DDRD=0b00100000;  //port D configuration
+  7c:	80 e2       	ldi	r24, 0x20	; 32
+  7e:	81 bb       	out	0x11, r24	; 17
+	PORTD=0b00011000;
+  80:	88 e1       	ldi	r24, 0x18	; 24
+  82:	82 bb       	out	0x12, r24	; 18
+
+	//Timer 1 initialization
+	TCCR1A=0x81; //(1<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (1<<WGM10);
+  84:	81 e8       	ldi	r24, 0x81	; 129
+  86:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B=0x03; //(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (1<<CS11) | (1<<CS10);
+  88:	83 e0       	ldi	r24, 0x03	; 3
+  8a:	8e bd       	out	0x2e, r24	; 46
+	TCNT1H=0x00;
+  8c:	1d bc       	out	0x2d, r1	; 45
+	TCNT1L=0x00;
+  8e:	1c bc       	out	0x2c, r1	; 44
+	ICR1H=0x00;
+  90:	17 bc       	out	0x27, r1	; 39
+	ICR1L=0x00;
+  92:	16 bc       	out	0x26, r1	; 38
+	OCR1AH=0x00;
+  94:	1b bc       	out	0x2b, r1	; 43
+	OCR1AL=0x00;
+  96:	1a bc       	out	0x2a, r1	; 42
+	OCR1BH=0x00;
+  98:	19 bc       	out	0x29, r1	; 41
+	OCR1BL=0x00;
+  9a:	18 bc       	out	0x28, r1	; 40
+
+	TIMSK=0x00;
+  9c:	19 be       	out	0x39, r1	; 57
+  9e:	2f ef       	ldi	r18, 0xFF	; 255
+  a0:	3f ef       	ldi	r19, 0xFF	; 255
+				OCR1A=OCR1A-0x01; //dimming the LED
+				i = MY_DELAY;
+				while (i--);
+				if(OCR1A==0x00)
+				{
+					flag = 1;
+  a2:	41 e0       	ldi	r20, 0x01	; 1
+  a4:	50 e0       	ldi	r21, 0x00	; 0
+
+	TIMSK=0x00;
+
+	while (1)
+	{
+		if(!(PIND &(1<<PD3)) && (flag == 0) && (OCR1A != 0xFF))
+  a6:	83 99       	sbic	0x10, 3	; 16
+  a8:	2e c0       	rjmp	.+92     	; 0x106 <main+0x8a>
+  aa:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  ae:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+  b2:	89 2b       	or	r24, r25
+  b4:	09 f0       	breq	.+2      	; 0xb8 <main+0x3c>
+  b6:	5e c0       	rjmp	.+188    	; 0x174 <main+0xf8>
+  b8:	8a b5       	in	r24, 0x2a	; 42
+  ba:	9b b5       	in	r25, 0x2b	; 43
+  bc:	8f 3f       	cpi	r24, 0xFF	; 255
+  be:	91 05       	cpc	r25, r1
+  c0:	09 f4       	brne	.+2      	; 0xc4 <main+0x48>
+  c2:	55 c0       	rjmp	.+170    	; 0x16e <main+0xf2>
+  c4:	88 e8       	ldi	r24, 0x88	; 136
+  c6:	93 e1       	ldi	r25, 0x13	; 19
+		{
+			i = MY_DELAY;      //
+			while (i--);
+  c8:	01 97       	sbiw	r24, 0x01	; 1
+  ca:	f0 f7       	brcc	.-4      	; 0xc8 <main+0x4c>
+  cc:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <i+0x1>
+  d0:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <i>
+			if(!(PIND &(1<<PD3)))  //checking if the button is really pushed
+  d4:	83 99       	sbic	0x10, 3	; 16
+  d6:	4b c0       	rjmp	.+150    	; 0x16e <main+0xf2>
+			{
+				OCR1A=OCR1A+0x01;    // increase LED brightness
+  d8:	8a b5       	in	r24, 0x2a	; 42
+  da:	9b b5       	in	r25, 0x2b	; 43
+  dc:	01 96       	adiw	r24, 0x01	; 1
+  de:	9b bd       	out	0x2b, r25	; 43
+  e0:	8a bd       	out	0x2a, r24	; 42
+				i = MY_DELAY;
+				while (i--);
+  e2:	88 e8       	ldi	r24, 0x88	; 136
+  e4:	93 e1       	ldi	r25, 0x13	; 19
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f0 f7       	brcc	.-4      	; 0xe6 <main+0x6a>
+  ea:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <i+0x1>
+  ee:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <i>
+				if(OCR1A == 0xFF)
+  f2:	8a b5       	in	r24, 0x2a	; 42
+  f4:	9b b5       	in	r25, 0x2b	; 43
+  f6:	8f 3f       	cpi	r24, 0xFF	; 255
+  f8:	91 05       	cpc	r25, r1
+  fa:	29 f4       	brne	.+10     	; 0x106 <main+0x8a>
+				{
+					flag = 1;
+  fc:	50 93 61 00 	sts	0x0061, r21	; 0x800061 <_edata+0x1>
+ 100:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
+ 104:	37 c0       	rjmp	.+110    	; 0x174 <main+0xf8>
+				}
+			}
+			
+		}
+		if(!(PIND &(1<<PD4)) && (flag == 0) && (OCR1A != 0x00))
+ 106:	84 99       	sbic	0x10, 4	; 16
+ 108:	29 c0       	rjmp	.+82     	; 0x15c <main+0xe0>
+ 10a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 10e:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 112:	89 2b       	or	r24, r25
+ 114:	19 f5       	brne	.+70     	; 0x15c <main+0xe0>
+ 116:	8a b5       	in	r24, 0x2a	; 42
+ 118:	9b b5       	in	r25, 0x2b	; 43
+ 11a:	89 2b       	or	r24, r25
+ 11c:	f9 f0       	breq	.+62     	; 0x15c <main+0xe0>
+ 11e:	88 e8       	ldi	r24, 0x88	; 136
+ 120:	93 e1       	ldi	r25, 0x13	; 19
+		{
+			i = MY_DELAY;
+			while (i--);
+ 122:	01 97       	sbiw	r24, 0x01	; 1
+ 124:	f0 f7       	brcc	.-4      	; 0x122 <main+0xa6>
+ 126:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <i+0x1>
+ 12a:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <i>
+			if(!(PIND &(1<<PD4))) //checking if the button is really pushed
+ 12e:	84 99       	sbic	0x10, 4	; 16
+ 130:	15 c0       	rjmp	.+42     	; 0x15c <main+0xe0>
+			{
+				OCR1A=OCR1A-0x01; //dimming the LED
+ 132:	8a b5       	in	r24, 0x2a	; 42
+ 134:	9b b5       	in	r25, 0x2b	; 43
+ 136:	01 97       	sbiw	r24, 0x01	; 1
+ 138:	9b bd       	out	0x2b, r25	; 43
+ 13a:	8a bd       	out	0x2a, r24	; 42
+				i = MY_DELAY;
+				while (i--);
+ 13c:	88 e8       	ldi	r24, 0x88	; 136
+ 13e:	93 e1       	ldi	r25, 0x13	; 19
+ 140:	01 97       	sbiw	r24, 0x01	; 1
+ 142:	f0 f7       	brcc	.-4      	; 0x140 <main+0xc4>
+ 144:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <i+0x1>
+ 148:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <i>
+				if(OCR1A==0x00)
+ 14c:	8a b5       	in	r24, 0x2a	; 42
+ 14e:	9b b5       	in	r25, 0x2b	; 43
+ 150:	89 2b       	or	r24, r25
+ 152:	21 f4       	brne	.+8      	; 0x15c <main+0xe0>
+				{
+					flag = 1;
+ 154:	50 93 61 00 	sts	0x0061, r21	; 0x800061 <_edata+0x1>
+ 158:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
+				}
+			}
+		}
+		if((PIND & (1<<PD3)) && (PIND & (1<<PD4)))
+ 15c:	83 9b       	sbis	0x10, 3	; 16
+ 15e:	a3 cf       	rjmp	.-186    	; 0xa6 <main+0x2a>
+ 160:	84 9b       	sbis	0x10, 4	; 16
+ 162:	a1 cf       	rjmp	.-190    	; 0xa6 <main+0x2a>
+		{
+			flag = 0;
+ 164:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
+ 168:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 16c:	9c cf       	rjmp	.-200    	; 0xa6 <main+0x2a>
+					flag = 1;
+				}
+			}
+			
+		}
+		if(!(PIND &(1<<PD4)) && (flag == 0) && (OCR1A != 0x00))
+ 16e:	84 9b       	sbis	0x10, 4	; 16
+ 170:	d2 cf       	rjmp	.-92     	; 0x116 <main+0x9a>
+ 172:	f4 cf       	rjmp	.-24     	; 0x15c <main+0xe0>
+ 174:	80 b3       	in	r24, 0x10	; 16
+ 176:	f2 cf       	rjmp	.-28     	; 0x15c <main+0xe0>
+
+00000178 <_exit>:
+ 178:	f8 94       	cli
+
+0000017a <__stop_program>:
+ 17a:	ff cf       	rjmp	.-2      	; 0x17a <__stop_program>
